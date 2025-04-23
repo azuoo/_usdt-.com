@@ -140,7 +140,6 @@ registerForm.addEventListener('submit', e => {
 
   // حفظ بيانات المستخدم
 saveUser(email, pass1);
-
 // الحصول على ref من الرابط (إذا المستخدم جاء من رابط إحالة)
 const params = new URLSearchParams(window.location.search);
 const ref = params.get("ref");
@@ -153,14 +152,6 @@ fetch("https://script.google.com/macros/s/AKfycbzbsd83PzcIWz2Afz9NP9gQMybIFp9mhV
     referrer: ref || "none"
   })
 });
-
-alert('تم التسجيل بنجاح! سيتم تحويلك الآن.');
-
-if (ref) {
-  window.location.href = "home.html?ref=" + encodeURIComponent(ref);
-} else {
-  window.location.href = "home.html";
-}
   localStorage.setItem('referralCode', referralCode);
 alert('تم التسجيل بنجاح! سيتم تحويلك الآن.');
 const params = new URLSearchParams(window.location.search);
