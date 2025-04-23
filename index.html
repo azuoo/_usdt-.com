@@ -141,9 +141,8 @@ registerForm.addEventListener('submit', e => {
   // حفظ بيانات المستخدم
   saveUser(email, pass1);
   localStorage.setItem('referralCode', referralCode);
-
-  alert('تم التسجيل بنجاح! يمكنك تسجيل الدخول الآن.');
-  switchScreen(true);
+alert('تم التسجيل بنجاح! سيتم تحويلك الآن.');
+window.location.href = "home.html";
 });
 
     /* ========== معالجة تسجيل الدخول ========= */
