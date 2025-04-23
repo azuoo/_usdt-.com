@@ -6,7 +6,7 @@
   <style>
     body { font-family: sans-serif; background: #111; color: #fff; padding: 20px; text-align: center; }
     .box { background: #222; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 500px; }
-    .email { color: #4ff; word-break: break-all; }
+    .email { color: #4ff; }
     .copy-btn { margin-top: 10px; padding: 10px 20px; background: #4ff; border: none; border-radius: 5px; cursor: pointer; }
     ul { list-style: none; padding: 0; margin-top: 20px; }
     li { background: #333; padding: 10px; margin: 5px 0; border-radius: 5px; }
@@ -16,56 +16,43 @@
 
   <div class="box">
     <h2>رابط الإحالة الخاص بك:</h2>
-    <p class="email" id="refLink">... جاري التحميل</p>
+    <p class="email" id="refLink"></p>
     <button class="copy-btn" onclick="copyLink()">نسخ الرابط</button>
   </div>
 
   <div class="box">
     <h3>عدد الأشخاص الذين سجلوا من رابطك:</h3>
-    <p id="refCount">0</p>
+    <p id="refCount">جاري التحميل...</p>
     <ul id="refList"></ul>
   </div>
 
   <script>
     const email = localStorage.getItem('userEmail');
-    if (!email) {
-      document.getElementById('refLink').innerText = 'يرجى تسجيل الدخول أولاً.';
-    } else {
-      const link = https://azuoo.github.io/_usdt.com/?ref=${encodeURIComponent(email)};
-      document.getElementById('refLink').innerText = link;
+    const link = https://azuoo.github.io/_usdt.com/?ref=${encodeURIComponent(email)};
+    document.getElementById('refLink').innerText = link;
 
-      function copyLink() {
-        navigator.clipboard.writeText(link).then(() => {
-          alert("تم نسخ الرابط!");
-        }).catch(() => {
-          alert("حدث خطأ أثناء النسخ");
-        });
-      }
-
-      window.copyLink = copyLink;
-
-      // جلب بيانات Google Sheets
-      fetch("https://script.google.com/macros/s/AKfycbzbsd83PzcIWz2Afz9NP9gQMybIFp9mhV3Zqng6EyrAzRoj2wY7F_q-xDleR3idtCz9/exec")
-        .then(res => res.json())
-        .then(data => {
-          const myReferrals = data.filter(row => row.referrer === email);
-          document.getElementById("refCount").innerText = myReferrals.length;
-
-          const list = document.getElementById("refList");
-          if (myReferrals.length === 0) {
-            list.innerHTML = "<li>لا أحد سجل من رابطك بعد</li>";
-          } else {
-            myReferrals.forEach(person => {
-              const li = document.createElement("li");
-              li.textContent = person.email;
-              list.appendChild(li);
-            });
-          }
-        })
-        .catch(() => {
-          document.getElementById("refCount").innerText = "خطأ في الاتصال!";
-        });
+    function copyLink() {
+      navigator.clipboard.writeText(link);
+      alert("تم نسخ الرابط!");
     }
+
+    // جلب بيانات Google Sheets
+    fetch("https://script.google.com/macros/s/AKfycbzbsd83PzcIWz2Afz9NP9gQMybIFp9mhV3Zqng6EyrAzRoj2wY7F_q-xDleR3idtCz9/exec")
+      .then(res => res.json())
+      .then(data => {
+        const myReferrals = data.filter(row => row.referrer === email);
+        document.getElementById("refCount").innerText = ${myReferrals.length} شخص;
+
+        const list = document.getElementById("refList");
+        myReferrals.forEach(person => {
+          const li = document.createElement("li");
+          li.textContent = person.email;
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById("refCount").innerText = "حدث خطأ";
+      });
   </script>
 
 </body>
