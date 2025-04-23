@@ -142,7 +142,13 @@ registerForm.addEventListener('submit', e => {
   saveUser(email, pass1);
   localStorage.setItem('referralCode', referralCode);
 alert('تم التسجيل بنجاح! سيتم تحويلك الآن.');
-window.location.href = "home.html";
+const params = new URLSearchParams(window.location.search);
+const ref = params.get("ref");
+if (ref) {
+  window.location.href = "home.html?ref=" + encodeURIComponent(ref);
+} else {
+  window.location.href = "home.html";
+}
 });
 
     /* ========== معالجة تسجيل الدخول ========= */
