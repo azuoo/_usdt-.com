@@ -1,21 +1,49 @@
-<p>رابط الإحالة الخاص بك: <span id="referralCode">جاري التحميل...</span></p>
-<p>عدد الأشخاص الذين سجلوا من رابطك: <span id="referralCount">جاري التحميل...</span></p>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>صفحة الإحالات</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; direction: rtl; }
+    .box { border: 1px solid #ccc; padding: 20px; display: inline-block; border-radius: 10px; }
+    #refLink { direction: ltr; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>رابط الإحالة الخاص بك:</h2>
+    <p id="refLink">جارٍ التحميل...</p>
+    <h3>عدد الأشخاص الذين قمت بدعوتهم:</h3>
+    <p id="refCount">جارٍ التحميل...</p>
+  </div>
 
-<script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwyd9C8uAq8Ww3AGiT4jGerfMlEpy7eAFrPo3kjTbJbd3AG_sRNopWWYBsiw7x4F6c/exec";
-  const currentUserEmail = localStorage.getItem("userEmail");
+  <script>
+    // رابط السكريبت الخاص بك من Google Apps Script
+    const scriptURL = "https://script.google.com/macros/s/XXXXXXXXXXXXXX/exec";
 
-  fetch(scriptURL)
-    .then(response => response.json())
-    .then(data => {
-      const userData = data.find(row => row.email === currentUserEmail);
-      if (userData) {
-        document.getElementById("referralCode").textContent = userData.referralCode;
-        document.getElementById("referralCount").textContent = userData.referralCount;
-      } else {
-        document.getElementById("referralCode").textContent = "غير متوفر";
-        document.getElementById("referralCount").textContent = "0";
-      }
-    })
-    .catch(error => console.error("حدث خطأ:", error));
-</script>
+    // استرجاع البريد من التخزين المحلي
+    const userEmail = localStorage.getItem("email");
+
+    if (!userEmail) {
+      document.body.innerHTML = "<h2>الرجاء تسجيل الدخول أولاً</h2>";
+    } else {
+      fetch(`${scriptURL}?email=${userEmail}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.referral_code) {
+            const link = https://azuoo.github.io/_usdt.com/register.html?ref=${data.referral_code};
+            document.getElementById("refLink").textContent = link;
+            document.getElementById("refCount").textContent = data.referrals_count || 0;
+          } else {
+            document.getElementById("refLink").textContent = "لم يتم العثور على البيانات.";
+            document.getElementById("refCount").textContent = "0";
+          }
+        })
+        .catch(err => {
+          document.getElementById("refLink").textContent = "حدث خطأ!";
+          console.error(err);
+        });
+    }
+  </script>
+</body>
+</html>
